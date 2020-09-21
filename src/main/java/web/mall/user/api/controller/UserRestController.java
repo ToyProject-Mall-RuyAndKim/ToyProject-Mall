@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import web.mall.user.api.model.UserVO;
-import web.mall.user.api.service.UserService;
+import web.mall.security.domain.UserInfo;
+import web.mall.security.service.MemberService;
 
 @RestController
 @RequestMapping(value="/api/user")
 public class UserRestController {
 	
 	@Autowired
-	private UserService userService;
+	private MemberService memberService;
 	
 	@RequestMapping(value="/signup",method = RequestMethod.POST)
-	public ResponseEntity<String> signup(UserVO userVO){
-		userService.setUser(userVO);
+	public ResponseEntity<String> signup(UserInfo userVO){
+		memberService.setUser(userVO);
 		return ResponseEntity.ok("ok");
 	}
 }

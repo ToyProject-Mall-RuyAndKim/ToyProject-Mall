@@ -1,21 +1,20 @@
-package web.mall.user.api.domain;
+package web.mall.security.domain;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity
-@Table(name="tb_user")
-public class Member{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+import web.mall.user.api.domain.Member;
+
+public class UserInfo implements UserDetails{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int user_idx;
 	private String user_id;
 	private String user_password;
@@ -27,14 +26,63 @@ public class Member{
 	private String user_address;
 	private String user_address_detail;
 	private String user_phone_number;
-	private Date user_begin_date;
 	private String user_grant;
-		
-	public Member() {}
 	
-	@PrePersist
-	private void onCreate() {
-		this.user_begin_date = new Date();
+	public UserInfo(Member member) {
+		this.user_idx = member.getUser_idx();
+		this.user_id = member.getUser_id();
+		this.user_password = member.getUser_password();
+		this.user_name = member.getUser_name();
+		this.user_nickname = member.getUser_nickname();
+		this.user_email = member.getUser_email();
+		this.user_grant = member.getUser_grant();
+	}
+	@Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        
+        String roleGrant = "ROLE_" + user_grant;
+        
+        GrantedAuthority myGrant = new SimpleGrantedAuthority(roleGrant);
+        
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        
+        authorities.add(myGrant);
+        
+        return authorities;
+    }
+	@Override
+    public String getPassword() {
+        // TODO Auto-generated method stub
+        return user_password;
+    }
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        return user_id;
+    }
+  //계정이 만료되지 않았는지를 확인
+	@Override	
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	//계정 잠김 여부 확인
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	//비밀번호 만료 여부 확인
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	//계정 활성화 여부
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 	public int getUser_idx() {
 		return user_idx;
@@ -101,12 +149,6 @@ public class Member{
 	}
 	public void setUser_phone_number(String user_phone_number) {
 		this.user_phone_number = user_phone_number;
-	}
-	public Date getUser_begin_date() {
-		return user_begin_date;
-	}
-	public void setUser_begin_date(Date user_begin_date) {
-		this.user_begin_date = user_begin_date;
 	}
 	public String getUser_grant() {
 		return user_grant;
