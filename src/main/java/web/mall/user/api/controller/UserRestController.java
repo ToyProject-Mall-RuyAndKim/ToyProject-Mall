@@ -28,15 +28,17 @@ public class UserRestController {
 	private JwtUtils jwtUtils;
 	
 	@RequestMapping(value="/signup",method = RequestMethod.POST)
-	public ResponseEntity<String> signup(UserInfo userInfo){
-		memberService.setUser(userInfo);
+	public ResponseEntity<String> signup(UserInfo userInfo) throws Exception{
+		try{
+			memberService.setUser(userInfo);
+		}catch(Exception e){
+			throw new Exception("Already have userId");
+		}
 		return ResponseEntity.ok("ok");
 	}
 	@RequestMapping(value="/login",method = RequestMethod.POST)
 	public ResponseEntity<?> logIn(@RequestBody UserInfo userInfo) throws Exception{
 		try{
-			System.out.println(userInfo.getUsername());
-			System.out.println(userInfo.getUserPassword());
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userInfo.getUsername(),userInfo.getPassword()));
 			/*
 			 * authenticate - UsernamePasswordAuthenticationToken을 기본 AuthenticationProvider로 전달
@@ -51,5 +53,9 @@ public class UserRestController {
 		final String token = jwtUtils.createToken(userDetails.getUsername(),"USER");	//유저이름, 권한List를 파라미터로 넣음
 		
 		return ResponseEntity.ok(new AuthenticationResponse(token));
+	}
+	@RequestMapping(value = "/test",method = RequestMethod.POST)
+	public ResponseEntity<String> testMethod(){
+		return ResponseEntity.ok("ok");
 	}
 }

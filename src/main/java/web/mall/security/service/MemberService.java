@@ -29,21 +29,24 @@ public class MemberService implements UserDetailsService{
 	@Autowired
 	private UserRepository userRepository;
 	
-	public void setUser(UserInfo userVO) {
+	public void setUser(UserInfo userInfo) throws Exception{
 		
+		if(userRepository.findByUserId(userInfo.getUserId()) != null) {
+			throw new Exception();
+		}
 		Member member = new Member();
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		
-		member.setUserId(userVO.getUserId());
-		member.setUserPassword(passwordEncoder.encode(userVO.getUserPassword()));
-		member.setUserName(userVO.getUserName());
+		member.setUserId(userInfo.getUserId());
+		member.setUserPassword(passwordEncoder.encode(userInfo.getUserPassword()));
+		member.setUserName(userInfo.getUserName());
 		member.setUserRank(0);
-		member.setUserNickname(userVO.getUserNickname());
-		member.setUserEmail(userVO.getUserEmail());
-		member.setUserPostNumber(userVO.getUserPostNumber());
-		member.setUserAddress(userVO.getUserAddress());
-		member.setUserAddressDetail(userVO.getUserAddressDetail());
-		member.setUserPhoneNumber(userVO.getUserPhoneNumber());
+		member.setUserNickname(userInfo.getUserNickname());
+		member.setUserEmail(userInfo.getUserEmail());
+		member.setUserPostNumber(userInfo.getUserPostNumber());
+		member.setUserAddress(userInfo.getUserAddress());
+		member.setUserAddressDetail(userInfo.getUserAddressDetail());
+		member.setUserPhoneNumber(userInfo.getUserPhoneNumber());
 		member.setUserGrant("USER");
 		
 		userRepository.save(member);
@@ -53,17 +56,17 @@ public class MemberService implements UserDetailsService{
 	//password 부분 처리는 알아서함
 	//username이 DB에 존재하는지 확인해서 return 필요
 	@Override	
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
-		Member member = userRepository.findByUserName(username)
+	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException{
+		Member member = userRepository.findByUserId(userId)
 				.orElseThrow(()->{
-					return new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다.:"+username);
+					return new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다.:"+userId);
 				});
-		if(member.getUserId().equals(username)) {
+		if(member.getUserId().equals(userId)) {
 			List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
 			roles.add(new SimpleGrantedAuthority("ROLE_USER"));
 			return new User(member.getUserId(),member.getUserPassword(),roles);	//ArrayList = role
 		}else {
-			throw new UsernameNotFoundException("User not found with username: " +username);
+			throw new UsernameNotFoundException("User not found with username: " +userId);
 		}
 	}
 }

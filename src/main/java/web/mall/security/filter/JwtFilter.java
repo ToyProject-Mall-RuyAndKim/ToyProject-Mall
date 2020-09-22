@@ -24,6 +24,7 @@ public class JwtFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain chain) throws ServletException, IOException{
 		String token = request.getHeader("X-AUTH-TOKEN");	//Request Header에서 토큰을 가져옴
+		System.out.println(token);
 		System.out.println("test");
 		if(token != null && jwtUtils.validateToken(token)) {
 			Authentication authentication = jwtUtils.getAuthentication(token);	//토큰이 유효하면 토큰으로부터 유저 정보를 가져옴.

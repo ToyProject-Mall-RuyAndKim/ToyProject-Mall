@@ -10,12 +10,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import web.mall.security.filter.JwtFilter;
 
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
+	@Autowired
+	private JwtFilter jwtFilter; 
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -34,13 +39,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.authorizeRequests()	//리소스 URL 접근 권한 설정
 			.antMatchers("/api/user/signup").permitAll()
 			.antMatchers("/api/user/login").permitAll()
-			.antMatchers("/api/user/test").permitAll()
 			.antMatchers("/api/admin/**").hasRole("ADMIN")
 			.anyRequest().authenticated()
 		.and().csrf()
 			.disable();
+		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);//jwt 필터가 우선 실행되도록 설정
 	}
-
 }
 
 		
