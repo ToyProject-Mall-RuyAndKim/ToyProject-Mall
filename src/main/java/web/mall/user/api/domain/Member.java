@@ -2,6 +2,7 @@ package web.mall.user.api.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,102 +17,141 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class Member{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int user_idx;
-	private String user_id;
-	private String user_password;
-	private String user_name;
-	private int user_rank;
-	private String user_nickname;
-	private String user_email;
-	private String user_post_number;
-	private String user_address;
-	private String user_address_detail;
-	private String user_phone_number;
-	private Date user_begin_date;
-	private String user_grant;
+	@Column(name="user_idx")
+	private int userIdx;
+	@Column(name="user_id")
+	private String userId;
+	@Column(name="user_password")
+	private String userPassword;
+	@Column(name="user_name")
+	private String userName;
+	@Column(name="user_rank")
+	private int userRank;
+	@Column(name="user_nickname")
+	private String userNickname;
+	@Column(name="user_email")
+	private String userEmail;
+	@Column(name="user_post_number")
+	private String userPostNumber;
+	@Column(name="user_address")
+	private String userAddress;
+	@Column(name="user_address_detail")
+	private String userAddressDetail;
+	@Column(name="user_phone_number")
+	private String userPhoneNumber;
+	@Column(name="user_begin_date")
+	private Date userBeginDate;
+	@Column(name="user_grant")
+	private String userGrant;
 		
 	public Member() {}
 	
 	@PrePersist
 	private void onCreate() {
-		this.user_begin_date = new Date();
+		this.userBeginDate = new Date();
 	}
-	public int getUser_idx() {
-		return user_idx;
+
+	public int getUserIdx() {
+		return userIdx;
 	}
-	public void setUser_idx(int user_idx) {
-		this.user_idx = user_idx;
+
+	public void setUserIdx(int userIdx) {
+		this.userIdx = userIdx;
 	}
-	public String getUser_id() {
-		return user_id;
+
+	public String getUserId() {
+		return userId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getUser_password() {
-		return user_password;
+
+	public String getUserPassword() {
+		return userPassword;
 	}
-	public void setUser_password(String user_password) {
-		this.user_password = user_password;
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
-	public String getUser_name() {
-		return user_name;
+
+	public String getUserName() {
+		return userName;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public int getUser_rank() {
-		return user_rank;
+
+	public int getUserRank() {
+		return userRank;
 	}
-	public void setUser_rank(int user_rank) {
-		this.user_rank = user_rank;
+
+	public void setUserRank(int userRank) {
+		this.userRank = userRank;
 	}
-	public String getUser_nickname() {
-		return user_nickname;
+
+	public String getUserNickname() {
+		return userNickname;
 	}
-	public void setUser_nickname(String user_nickname) {
-		this.user_nickname = user_nickname;
+
+	public void setUserNickname(String userNickname) {
+		this.userNickname = userNickname;
 	}
-	public String getUser_email() {
-		return user_email;
+
+	public String getUserEmail() {
+		return userEmail;
 	}
-	public void setUser_email(String user_email) {
-		this.user_email = user_email;
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
-	public String getUser_post_number() {
-		return user_post_number;
+
+	public String getUserPostNumber() {
+		return userPostNumber;
 	}
-	public void setUser_post_number(String user_post_number) {
-		this.user_post_number = user_post_number;
+
+	public void setUserPostNumber(String userPostNumber) {
+		this.userPostNumber = userPostNumber;
 	}
-	public String getUser_address() {
-		return user_address;
+
+	public String getUserAddress() {
+		return userAddress;
 	}
-	public void setUser_address(String user_address) {
-		this.user_address = user_address;
+
+	public void setUserAddress(String userAddress) {
+		this.userAddress = userAddress;
 	}
-	public String getUser_address_detail() {
-		return user_address_detail;
+
+	public String getUserAddressDetail() {
+		return userAddressDetail;
 	}
-	public void setUser_address_detail(String user_address_detail) {
-		this.user_address_detail = user_address_detail;
+
+	public void setUserAddressDetail(String userAddressDetail) {
+		this.userAddressDetail = userAddressDetail;
 	}
-	public String getUser_phone_number() {
-		return user_phone_number;
+
+	public String getUserPhoneNumber() {
+		return userPhoneNumber;
 	}
-	public void setUser_phone_number(String user_phone_number) {
-		this.user_phone_number = user_phone_number;
+
+	public void setUserPhoneNumber(String userPhoneNumber) {
+		this.userPhoneNumber = userPhoneNumber;
 	}
-	public Date getUser_begin_date() {
-		return user_begin_date;
+
+	public Date getUserBeginDate() {
+		return userBeginDate;
 	}
-	public void setUser_begin_date(Date user_begin_date) {
-		this.user_begin_date = user_begin_date;
+
+	public void setUserBeginDate(Date userBeginDate) {
+		this.userBeginDate = userBeginDate;
 	}
-	public String getUser_grant() {
-		return user_grant;
+
+	public String getUserGrant() {
+		return userGrant;
 	}
-	public void setUser_grant(String user_grant) {
-		this.user_grant = user_grant;
+
+	public void setUserGrant(String userGrant) {
+		this.userGrant = userGrant;
 	}
 }

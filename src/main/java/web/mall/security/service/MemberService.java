@@ -1,8 +1,17 @@
 package web.mall.security.service;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,19 +30,21 @@ public class MemberService implements UserDetailsService{
 	private UserRepository userRepository;
 	
 	public void setUser(UserInfo userVO) {
+		
 		Member member = new Member();
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		
-		member.setUser_id(userVO.getUser_id());
-		member.setUser_password(passwordEncoder.encode(userVO.getUser_password()));
-		member.setUser_name(userVO.getUser_name());
-		member.setUser_rank(0);
-		member.setUser_nickname(userVO.getUser_nickname());
-		member.setUser_email(userVO.getUser_email());
-		member.setUser_post_number(userVO.getUser_post_number());
-		member.setUser_address(userVO.getUser_address());
-		member.setUser_address_detail(userVO.getUser_address_detail());
-		member.setUser_phone_number(userVO.getUser_phone_number());
+		member.setUserId(userVO.getUserId());
+		member.setUserPassword(passwordEncoder.encode(userVO.getUserPassword()));
+		member.setUserName(userVO.getUserName());
+		member.setUserRank(0);
+		member.setUserNickname(userVO.getUserNickname());
+		member.setUserEmail(userVO.getUserEmail());
+		member.setUserPostNumber(userVO.getUserPostNumber());
+		member.setUserAddress(userVO.getUserAddress());
+		member.setUserAddressDetail(userVO.getUserAddressDetail());
+		member.setUserPhoneNumber(userVO.getUserPhoneNumber());
+		member.setUserGrant("USER");
 		
 		userRepository.save(member);
 	}
@@ -42,12 +53,17 @@ public class MemberService implements UserDetailsService{
 	//password 부분 처리는 알아서함
 	//username이 DB에 존재하는지 확인해서 return 필요
 	@Override	
-	public UserInfo loadUserByUsername(String username) throws UsernameNotFoundException{
-		Member member = userRepository.findByUsername(username)
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+		Member member = userRepository.findByUserName(username)
 				.orElseThrow(()->{
 					return new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다.:"+username);
 				});
-		
-		return new UserInfo(member);	// 시큐리티의 세션에 유저 정보 저장
+		if(member.getUserId().equals(username)) {
+			List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
+			roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+			return new User(member.getUserId(),member.getUserPassword(),roles);	//ArrayList = role
+		}else {
+			throw new UsernameNotFoundException("User not found with username: " +username);
+		}
 	}
 }

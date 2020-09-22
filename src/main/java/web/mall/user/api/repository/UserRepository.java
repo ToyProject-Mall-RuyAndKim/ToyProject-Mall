@@ -10,5 +10,5 @@ import web.mall.user.api.domain.Member;
 @Repository
 public interface UserRepository extends JpaRepository<Member,Integer>{
 	//findByooo로 시작하면 자동으로 ooo검색 쿼리를 만들어준다.
-	public Optional<Member> findByUsername(String username);
+	public Optional<Member> findByUserName(String username);
 }
