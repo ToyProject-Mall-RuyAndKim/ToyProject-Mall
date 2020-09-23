@@ -17,14 +17,14 @@ CREATE TABLE tb_product(
 	proudct_idx INT PRIMARY KEY auto_increment
 	,product_name VARCHAR(30) NOT null
 	,product_price INT NOT null
-	,product_catagory INT NOT null
+	,product_catagory INT NOT NULL FOREIGN KEY REFERENCES tb_product_category.category_sub
 	,product_img_path VARCHAR(100)
 	,product_begin_date date
 )
 CREATE TABLE tb_product_category(
-    category_idx INT PRIMARY KEY auto_increment
-    ,category_main VARCHAR(20)	#1차카테고리
-    ,category_sub VARCHAR(20)		#2차카테고리
+    category_name VARCHAR(20) PRIMARY KEY
+    ,category VARCHAR(20)	#1차카테고리
+    ,category_ref VARCHAR(20)		#2차카테고리
 )
 CREATE TABLE tb_basket(
 )
