@@ -53,7 +53,6 @@ public class MemberService implements UserDetailsService{
 		userRepository.save(member);
 	}
 	public String checkUserExist(String userId) {	//유저 존재 여부 확인
-		System.out.println(userRepository.findByUserId(userId).isPresent());
 		if(userRepository.findByUserId(userId).isPresent()) { return "fail"; }
 		else { return "ok";}
 	}
