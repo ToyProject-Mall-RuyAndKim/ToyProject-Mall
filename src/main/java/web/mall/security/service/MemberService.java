@@ -2,6 +2,7 @@ package web.mall.security.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -51,7 +52,11 @@ public class MemberService implements UserDetailsService{
 		
 		userRepository.save(member);
 	}
-	
+	public String checkUserExist(String userId) {	//유저 존재 여부 확인
+		System.out.println(userRepository.findByUserId(userId).isPresent());
+		if(userRepository.findByUserId(userId).isPresent()) { return "fail"; }
+		else { return "ok";}
+	}
 	//스프링이 로그인 요청을 가로챌 때,username,password 변수 2개를 가로채는데
 	//password 부분 처리는 알아서함
 	//username이 DB에 존재하는지 확인해서 return 필요

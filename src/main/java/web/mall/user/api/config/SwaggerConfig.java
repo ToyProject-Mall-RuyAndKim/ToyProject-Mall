@@ -15,21 +15,19 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    private ApiInfo apiInfo() {
-
-        return new ApiInfoBuilder()
-                .title("Demo")
-                .description("API EXAMPLE")
-                .build();
-    }
-
     @Bean
     public Docket commonApi() {
         return new Docket(DocumentationType.SWAGGER_2)
         		.select()
                 .apis(RequestHandlerSelectors.any()) // 현재 RequestMapping으로 할당된 모든 URL 리스트를 추출
-                .paths(PathSelectors.ant("/api/**")) // 그중 /api/** 인 URL들만 필터링
+                .paths(PathSelectors.ant("/api/**"))
+                .build()
+        		.apiInfo(apiInfo());
+    }
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Kim & Ruy Mall Project")
+                .description("Rest API Doc")
                 .build();
     }
-
 }

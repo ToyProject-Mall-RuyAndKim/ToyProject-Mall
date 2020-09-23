@@ -9,15 +9,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
 import web.mall.security.domain.UserInfo;
 import web.mall.security.model.AuthenticationResponse;
 import web.mall.security.service.MemberService;
 import web.mall.security.util.JwtUtils;
 
 @RestController
-@RequestMapping(value="/api/user")
+@RequestMapping(value="/api")
 public class UserRestController {
 	
 	@Autowired
@@ -27,6 +29,7 @@ public class UserRestController {
 	@Autowired
 	private JwtUtils jwtUtils;
 	
+	@ApiOperation(value = "회원가입 API (UserInfo) Return ok")
 	@RequestMapping(value="/signup",method = RequestMethod.POST)
 	public ResponseEntity<String> signup(UserInfo userInfo) throws Exception{
 		try{
@@ -36,6 +39,7 @@ public class UserRestController {
 		}
 		return ResponseEntity.ok("ok");
 	}
+	@ApiOperation(value = "로그인 API (UserName, UserPassword) Return - JWT Token")
 	@RequestMapping(value="/login",method = RequestMethod.POST)
 	public ResponseEntity<?> logIn(@RequestBody UserInfo userInfo) throws Exception{
 		try{
@@ -54,8 +58,10 @@ public class UserRestController {
 		
 		return ResponseEntity.ok(new AuthenticationResponse(token));
 	}
-	@RequestMapping(value = "/test",method = RequestMethod.POST)
-	public ResponseEntity<String> testMethod(){
-		return ResponseEntity.ok("ok");
+	@ApiOperation(value="ID 중복 확인 API (String UserId) Return - 아이디 존재시 fail 없을경우 ok")
+	@RequestMapping(value = "/id-check",method = RequestMethod.GET)
+	public String checkId(@RequestParam(value="userId",defaultValue="0")String userId){
+		
+		return memberService.checkUserExist(userId);
 	}
 }
