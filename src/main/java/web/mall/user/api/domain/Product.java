@@ -64,22 +64,16 @@ public class Product {
 	public void setProductImgPath(String productImgPath) {
 		this.productImgPath = productImgPath;
 	}
-	public Date getProduct_begin_date() {
-		return productBeginDate;
-	}
-	public void setProduct_begin_date(Date productBeginDate) {
-		this.productBeginDate = productBeginDate;
-	}
 	public Date getProductBeginDate() {
 		return productBeginDate;
 	}
 	public void setProductBeginDate(Date productBeginDate) {
 		this.productBeginDate = productBeginDate;
 	}
-	public String getPrudct_img_name() {
+	public String getPrudctImgName() {
 		return prudctImgName;
 	}
-	public void setPrudct_img_name(String prudctImgName) {
+	public void setPrudctImgName(String prudctImgName) {
 		this.prudctImgName = prudctImgName;
 	}
 }

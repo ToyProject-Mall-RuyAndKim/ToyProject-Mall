@@ -1,5 +1,7 @@
 package web.mall.user.api.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +25,14 @@ public class ProductRestController {
 	
 	@PostMapping(value="/admin/product")
 	@ApiOperation(value = "상품 등록 API(Product) return Product")	
-	public Product setProduct(Product product,@RequestParam("productFile")MultipartFile file) throws Exception {	//Exception 구체화 필요 (throws Exception 절대 x)
+	public Product setProduct(Product product,@RequestParam("productFile")MultipartFile file) throws IOException,FileNotFoundException {	//Exception 구체화 필요 (throws Exception 절대 x)
 		return productService.setProductInfo(product,file); 
 	}
-	@GetMapping(value="/admin/product/{categoryNum}")
-	public List<Product> getProductList(@PathVariable("categoryNum")Integer categoryNum) throws Exception{
+	@GetMapping(value="/admin/product")
+	@ApiOperation(value = "카테고리별 상품 목록(int CategoryNum) return List<Product>")
+	public List<Product> getProductList(@RequestParam("categoryNum")Integer categoryNum) throws IllegalArgumentException {
 		if(categoryNum == null) {
-			
+			throw new IllegalArgumentException ();
 		}
 		return productService.getProductInfoList(categoryNum);
 	}
