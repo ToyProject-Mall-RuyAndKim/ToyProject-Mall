@@ -14,4 +14,8 @@ API Doc : Swagger
 Version Control : Git   
 Server : AWS EC2   
 WAS : Tomcat8   
-
+-----------------------------------------
+Spring Security + JWT 를 이용한 사용자 인증 구현    
+Swagger 이용한 API doc 구현    
+상품 CRUD    
+장바구니 기능 구현    
