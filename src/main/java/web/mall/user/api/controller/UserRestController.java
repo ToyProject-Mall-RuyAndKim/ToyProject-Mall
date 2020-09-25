@@ -19,7 +19,7 @@ import web.mall.security.service.MemberService;
 import web.mall.security.util.JwtUtils;
 
 @RestController
-@RequestMapping(value="/api")
+@RequestMapping(value="/api/all")
 public class UserRestController {
 	
 	@Autowired
@@ -39,6 +39,7 @@ public class UserRestController {
 		}
 		return ResponseEntity.ok("ok");
 	}
+	
 	@ApiOperation(value = "로그인 API (UserName, UserPassword) Return - JWT Token")
 	@RequestMapping(value="/login",method = RequestMethod.POST)
 	public ResponseEntity<?> logIn(@RequestBody UserInfo userInfo) throws Exception{
@@ -54,10 +55,11 @@ public class UserRestController {
 		}	//id,password 검증 문제있을 경우 throw Exception
 		
 		final UserDetails userDetails = memberService.loadUserByUsername(userInfo.getUsername());
-		final String token = jwtUtils.createToken(userDetails.getUsername(),"USER");	//유저이름, 권한List를 파라미터로 넣음
+		final String token = jwtUtils.createToken(userDetails.getUsername());	//유저이름, 권한List를 파라미터로 넣음
 		
 		return ResponseEntity.ok(new AuthenticationResponse(token));
 	}
+	
 	@ApiOperation(value="ID 중복 확인 API (String UserId) Return - 아이디 존재시 fail 없을경우 ok")
 	@RequestMapping(value = "/id-check",method = RequestMethod.GET)
 	public String checkId(@RequestParam(value="userId",defaultValue="0")String userId){

@@ -15,6 +15,7 @@ public class ProductCategory {
 	private String category;
 	@Column(name="category_ref")
 	private String categoryRef;
+	
 	public String getCategoryName() {
 		return categoryName;
 	}

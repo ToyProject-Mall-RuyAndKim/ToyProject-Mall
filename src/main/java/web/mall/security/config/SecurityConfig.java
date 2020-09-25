@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.and()
 			.httpBasic().disable()
 			.authorizeRequests()	//리소스 URL 접근 권한 설정
-			.antMatchers("/api/**").permitAll()
+			.antMatchers("/api/all/**").permitAll()
 			.antMatchers("/api/admin/**").hasRole("ADMIN")
 			.antMatchers("/api/user/**").hasRole("USER")
 			.anyRequest().authenticated()

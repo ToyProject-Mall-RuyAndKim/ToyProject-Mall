@@ -56,6 +56,11 @@ public class MemberService implements UserDetailsService{
 		if(userRepository.findByUserId(userId).isPresent()) { return "fail"; }
 		else { return "ok";}
 	}
+	public Member getUser(String userId) {
+		return userRepository.findByUserId(userId).orElseThrow(()->{
+			return new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다.:"+userId);
+		});
+	}
 	//스프링이 로그인 요청을 가로챌 때,username,password 변수 2개를 가로채는데
 	//password 부분 처리는 알아서함
 	//username이 DB에 존재하는지 확인해서 return 필요
@@ -67,7 +72,8 @@ public class MemberService implements UserDetailsService{
 				});
 		if(member.getUserId().equals(userId)) {
 			List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-			roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+			System.out.println("ROLE_"+member.getUserGrant());
+			roles.add(new SimpleGrantedAuthority("ROLE_"+member.getUserGrant()));
 			return new User(member.getUserId(),member.getUserPassword(),roles);	//ArrayList = role
 		}else {
 			throw new UsernameNotFoundException("User not found with username: " +userId);

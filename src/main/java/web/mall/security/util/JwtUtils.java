@@ -30,9 +30,9 @@ public class JwtUtils {
 		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 	}
 	//JWT 토큰 생성
-	public String createToken(String userPk,String roles) {
-		Claims claims = Jwts.claims().setSubject(userPk);	//JWT Payload에 저장되는 단위
-		claims.put("roles", roles);
+	public String createToken(String userId) {
+		Claims claims = Jwts.claims().setSubject(userId);	//JWT Payload에 저장되는 단위
+		claims.put("roles", memberService.getUser(userId).getUserGrant());
 		Date now = new Date();
 		return Jwts.builder()
 				.setClaims(claims)	//정보 저장
