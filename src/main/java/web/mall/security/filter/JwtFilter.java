@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.JwtException;
 import web.mall.security.util.JwtUtils;
 
 @Component
@@ -22,16 +23,15 @@ public class JwtFilter extends OncePerRequestFilter{
 	private JwtUtils jwtUtils;
 	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain chain) throws ServletException, IOException{
+	protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain chain) throws JwtException,ServletException, IOException{
 		String token = request.getHeader("X-AUTH-TOKEN");	//Request Header에서 토큰을 가져옴
-		System.out.println(token);
+
 		if(token != null && jwtUtils.validateToken(token)) {
 			Authentication authentication = jwtUtils.getAuthentication(token);	//토큰이 유효하면 토큰으로부터 유저 정보를 가져옴.
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
 		chain.doFilter(request, response);
 	}
-
 	public JwtFilter() {
 		super();
 		// TODO Auto-generated constructor stub

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import web.mall.security.service.MemberService;
@@ -51,7 +52,7 @@ public class JwtUtils {
 	public String getUserPk(String token) {
 		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
 	}
-	public Boolean validateToken(String token) {
+	public Boolean validateToken(String token) throws JwtException{
 		Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);	//토큰에 담긴 claims 리스트를 가져옴
 		return !claims.getBody().getExpiration().before(new Date());
 		//토큰의 만료시간이 현재시간보다 작으면 true
