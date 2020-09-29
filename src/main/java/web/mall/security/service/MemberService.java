@@ -21,7 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import web.mall.security.domain.UserInfo;
-import web.mall.user.api.domain.Member;
+import web.mall.user.api.entity.Member;
 import web.mall.user.api.repository.UserRepository;
 
 @Service

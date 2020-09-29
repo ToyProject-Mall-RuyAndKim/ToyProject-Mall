@@ -28,11 +28,18 @@ CREATE TABLE tb_product_category(
     ,category int	PRIMARY KEY NOT null#1차카테고리
     ,category_ref INT#2차카테고리
 );
-CREATE TABLE tb_basket(
+Insert Into tb_product_category(category_name,category,category_ref) values ("test1",100,null);
+Insert Into tb_product_category(category_name,category,category_ref) values ("test1-1",101,100);
+Insert Into tb_product_category(category_name,category,category_ref) values ("test1-2",102,100);
+Insert Into tb_product_category(category_name,category,category_ref) values ("test2",200,null);
+Insert Into tb_product_category(category_name,category,category_ref) values ("test2-1",201,200);
+Insert Into tb_product_category(category_name,category,category_ref) values ("test2-2",202,200);
 
+CREATE TABLE tb_cart(
+	cart_idx int not null primary key auto_increment
+    ,cart_user_idx varchar(20) not null
+    ,cart_product_idx varchar(20) not null
+    ,cart_product_amount int not null
+    ,FOREIGN KEY(cart_user_id) REFERENCES tb_user(user_idx)
+    ,FOREIGN KEY(cart_product_id) REFERENCES tb_product(product_idx)
 );
-INSERT INTO tb_product_category(category_name,category,category_ref)VALUES("testCategory",100,NULL)
-INSERT INTO tb_product_category(category_name,category,category_ref)VALUES("testCategory1",101,100)
-SELECT * FROM tb_user
-SELECT * FROM tb_product
-SELECT * FROM tb_product_category

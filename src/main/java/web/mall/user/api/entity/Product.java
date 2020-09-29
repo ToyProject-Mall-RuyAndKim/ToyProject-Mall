@@ -1,4 +1,4 @@
-package web.mall.user.api.domain;
+package web.mall.user.api.entity;
 
 import java.util.Date;
 
@@ -10,11 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import springfox.documentation.annotations.ApiIgnore;
+
 @Entity
 @Table(name="tb_product")
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@ApiParam(value="입력 필요 X")
 	@Column(name="product_idx")
 	private int productIdx;
 	@Column(name="product_name")
@@ -23,13 +28,20 @@ public class Product {
 	private int productPrice;
 	@Column(name="product_category")
 	private int productCategory;
+	@ApiParam(value="입력 필요 X")
 	@Column(name="product_img_path")
 	private String productImgPath;
+	@ApiParam(value="입력 필요 X")
 	@Column(name="product_begin_date")
 	private Date productBeginDate;
 	@Column(name="product_img_name")
 	private String prudctImgName;
 	
+	public void update(Product product) {
+		this.productName = product.getProductName();
+		this.productPrice = product.getProductPrice();
+		this.productCategory = product.getProductCategory();
+	}
 	@PrePersist
 	private void onCreate() {
 		this.productBeginDate = new Date();

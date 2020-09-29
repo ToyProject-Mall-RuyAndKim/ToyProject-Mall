@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import web.mall.user.api.domain.Member;
-import web.mall.user.api.domain.Product;
+import web.mall.user.api.entity.Member;
+import web.mall.user.api.entity.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer>{

@@ -1,4 +1,4 @@
-package web.mall.user.api.domain;
+package web.mall.user.api.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import web.mall.user.api.domain.Member;
+import web.mall.user.api.entity.Member;
 
 public class UserInfo implements UserDetails{
 
